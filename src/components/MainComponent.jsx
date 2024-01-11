@@ -9,7 +9,6 @@ export default function MainComponent() {
       <group position-y={-1}>
         <Avatar />
       </group>
-
       <ambientLight intensity={1} />
     </>
   );
