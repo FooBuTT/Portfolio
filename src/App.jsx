@@ -1,11 +1,15 @@
 import { Canvas } from "@react-three/fiber";
 
 import MainComponent from "./components/MainComponent";
+import { Environment, OrbitControls, Sky } from "@react-three/drei";
 
 function App() {
   return (
     <>
-      <Canvas shadows camera={{ position: [0, 2, 5], fov: 30 }}>
+      <Canvas camera={{ position: [1, 1, 1] }}>
+        <OrbitControls />
+        <Sky />
+        <Environment preset="night" />
         <MainComponent />
       </Canvas>
     </>

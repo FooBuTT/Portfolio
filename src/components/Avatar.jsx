@@ -5,6 +5,7 @@ Command: npx gltfjsx@6.2.16 public/models/untitled.glb
 
 import React, { useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 
 export function Avatar(props) {
   const group = useRef();
@@ -13,10 +14,13 @@ export function Avatar(props) {
   const { animations: typingAnimation } = useFBX("animation/Typing.fbx");
   typingAnimation[0].name = "Typing";
   const { actions } = useAnimations(typingAnimation, group);
-  console.log(actions);
+  useFrame((state) => {
+    group.current.getObjectByName("Head").lookAt(state.camera.position);
+  });
   useEffect(() => {
     actions["Typing"].reset().play();
   }, []);
+
   return (
     <group rotation-x={-Math.PI / 2}>
       <group {...props} ref={group} dispose={null}>
