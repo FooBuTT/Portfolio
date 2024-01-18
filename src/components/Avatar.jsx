@@ -10,7 +10,7 @@ import { useFrame } from "@react-three/fiber";
 export function Avatar(props) {
   const group = useRef();
 
-  const { nodes, materials } = useGLTF("models/untitled.glb");
+  const { nodes, materials } = useGLTF("models/avatar.glb");
   const { animations: typingAnimation } = useFBX("animation/Typing.fbx");
   typingAnimation[0].name = "Typing";
   const { actions } = useAnimations(typingAnimation, group);
@@ -90,4 +90,4 @@ export function Avatar(props) {
   );
 }
 
-useGLTF.preload("models/untitled.glb");
+useGLTF.preload("models/avatar.glb");

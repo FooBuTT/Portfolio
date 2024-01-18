@@ -8,10 +8,11 @@ export default function MainComponent() {
     <>
       <Room />
       <group
-        position={[0, 0.169, -0.568]}
-        rotation={[-Math.PI, 0.004, -Math.PI]}
+        position={[1.101, 0.076, -1.817]}
+        rotation={[-Math.PI, 0.06, -Math.PI]}
+        scale={2.018}
       >
-        {/* <Avatar /> */}
+        <Avatar />
       </group>
     </>
   );
