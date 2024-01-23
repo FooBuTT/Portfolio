@@ -14,9 +14,9 @@ export function Avatar(props) {
   const { animations: typingAnimation } = useFBX("animation/Typing.fbx");
   typingAnimation[0].name = "Typing";
   const { actions } = useAnimations(typingAnimation, group);
-  useFrame((state) => {
-    group.current.getObjectByName("Head").lookAt(state.camera.position);
-  });
+  // useFrame((state) => {
+  //   group.current.getObjectByName("Head").lookAt(state.camera.position);
+  // });
   useEffect(() => {
     actions["Typing"].reset().play();
   }, []);

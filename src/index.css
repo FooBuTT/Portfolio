@@ -1,13 +1,31 @@
 #root {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 body {
   margin: 0;
-  background-color: #62bdff;
-  background-image: linear-gradient(180deg, #62bdff 0%, #000000 45%);
+}
+
+.NavigateContainer {
+  color: white;
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.NavigateWrap {
+  margin-left: 8px;
+  color: blue;
+}
+.homeSection {
+  margin-left: 100px;
+  margin-top: 180px;
+}
+button {
+  color: white;
+  background-color: blue;
+  border-radius: 10px;
 }
