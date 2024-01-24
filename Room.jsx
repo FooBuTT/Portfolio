@@ -63,7 +63,7 @@ export function Model(props) {
         <mesh name="mesh941242678" geometry={nodes.mesh941242678.geometry} material={materials.mat23} />
         <mesh name="mesh941242678_1" geometry={nodes.mesh941242678_1.geometry} material={materials['mat17.001']} />
       </group>
-      <group name="Monitor2" position={[1.49, 1.76, -3.678]} rotation={[Math.PI, -1.325, Math.PI]}>
+      <group name="Monitor2" position={[1.609, 1.76, -3.712]} rotation={[Math.PI, -1.325, Math.PI]}>
         <mesh name="mesh941242678001" geometry={nodes.mesh941242678001.geometry} material={materials['mat23.001']} />
         <mesh name="mesh941242678001_1" geometry={nodes.mesh941242678001_1.geometry} material={materials['mat17.002']} />
       </group>
@@ -83,9 +83,8 @@ export function Model(props) {
       <mesh name="Table_large_circular" geometry={nodes.Table_large_circular.geometry} material={materials['Material.001']} position={[-1.235, 0, 0.917]} scale={148.865} />
       <mesh name="Plane_1" geometry={nodes.Plane_1.geometry} material={materials.Floor} />
       <mesh name="Plane_2" geometry={nodes.Plane_2.geometry} material={materials.Wall} />
-      <mesh name="Plane_3" geometry={nodes.Plane_3.geometry} material={materials.Default} />
-      <mesh name="Plane_4" geometry={nodes.Plane_4.geometry} material={materials.Window} />
-      <mesh name="Plane_5" geometry={nodes.Plane_5.geometry} material={materials.Glass} />
+      <mesh name="Plane_3" geometry={nodes.Plane_3.geometry} material={materials.Window} />
+      <mesh name="Plane_4" geometry={nodes.Plane_4.geometry} material={materials.Glass} />
     </group>
   )
 }
