@@ -12,12 +12,13 @@ import { degToRad } from "three/src/math/MathUtils";
 import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { Color } from "three";
+import { Bloom, Depth, EffectComposer } from "@react-three/postprocessing";
 
 export default function MainComponent(props) {
-  const { onMonitor, navigate, setNavigate } = props;
+  const { onMonitor, navigate, setNavigate, setOnMonitor } = props;
   const controls = useRef();
 
-  const bloomColor = new Color("#007aa5");
+  const bloomColor = new Color("#fff");
   bloomColor.multiplyScalar(1.1);
 
   const intro = async () => {
@@ -25,7 +26,12 @@ export default function MainComponent(props) {
     controls.current.smoothTime = 1;
     controls.current.dolly(22, true);
   };
-
+  const aboutPage = () => {
+    setNavigate(1);
+  };
+  const contactPage = () => {
+    setNavigate(2);
+  };
   useEffect(() => {
     intro();
   }, []);
@@ -36,9 +42,38 @@ export default function MainComponent(props) {
         rotation-x={6.3}
         rotation-y={-Math.PI / 7}
         animate={{
-          x: onMonitor === false ? 0 : -2.4,
-          y: onMonitor === false ? 0 : 1.5,
-          z: onMonitor === false ? 0 : 5.7,
+          x:
+            navigate === 0
+              ? 0
+              : navigate === 1
+              ? -2.5
+              : navigate === 2
+              ? -0.4
+              : 0,
+          y:
+            navigate === 0
+              ? 0
+              : navigate === 1
+              ? 1.7
+              : navigate === 2
+              ? 1.7
+              : 0,
+          z:
+            navigate === 0
+              ? 0
+              : navigate === 1
+              ? 9.9
+              : navigate === 2
+              ? 11.3
+              : 0,
+          rotateY:
+            navigate === 0
+              ? -Math.PI / 7
+              : navigate === 1
+              ? 0.6
+              : navigate === 2
+              ? 1.4
+              : 0,
         }}
       >
         <CameraControls
@@ -60,7 +95,7 @@ export default function MainComponent(props) {
             Hi everyone!!!{"\n"}
             My name is Oleg, and I am {"\n"}a FullStack developer.{"\n"}
             This is my Portfolio page.{"\n"}
-            <meshBasicMaterial color={bloomColor} toneMapped={false} />
+            <meshBasicMaterial color={"#007aa5"} />
           </Text>
         </group>
         <motion.group
@@ -72,7 +107,7 @@ export default function MainComponent(props) {
             scale: 0.35,
           }}
           onClick={() => {
-            console.log("click");
+            aboutPage();
           }}
         >
           <Text
@@ -81,7 +116,7 @@ export default function MainComponent(props) {
             rotation-y={degToRad(75)}
           >
             AboutMe
-            <meshBasicMaterial color={bloomColor} toneMapped={false} />
+            <meshBasicMaterial color={bloomColor} />
           </Text>
         </motion.group>
         <motion.group
@@ -93,7 +128,7 @@ export default function MainComponent(props) {
             scale: 0.35,
           }}
           onClick={() => {
-            console.log("click");
+            contactPage();
           }}
         >
           <Text

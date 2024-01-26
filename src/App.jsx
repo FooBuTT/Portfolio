@@ -59,7 +59,11 @@ function App() {
             </Scroll>
           </ScrollControls> */}
           {/* <EffectComposer>
-            <Bloom intensity={0.1} />
+            <Bloom
+              intensity={1}
+              luminanceThreshold={0}
+              luminanceSmoothing={9}
+            />
           </EffectComposer> */}
         </Canvas>
       </MotionConfig>
