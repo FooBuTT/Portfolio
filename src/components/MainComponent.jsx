@@ -5,6 +5,7 @@ import { motion } from "framer-motion-3d";
 import {
   Environment,
   MeshReflectorMaterial,
+  PresentationControls,
   Text,
   Text3D,
 } from "@react-three/drei";
@@ -33,18 +34,18 @@ export default function MainComponent(props) {
 
   const intro = async () => {
     controls.current.dolly(-22);
-    controls.current.smoothTime = 1;
+    controls.current.smoothTime = 0.5;
     controls.current.dolly(22, true);
   };
-  const aboutPage = () => {
+  const aboutPage = async () => {
     controls.current.dolly(-8);
-    controls.current.smoothTime = 0.5;
+    controls.current.smoothTime = 0.1;
     controls.current.dolly(8, true);
     setNavigate(1);
   };
-  const contactPage = () => {
+  const contactPage = async () => {
     controls.current.dolly(-8);
-    controls.current.smoothTime = 0.5;
+    controls.current.smoothTime = 0.1;
     controls.current.dolly(8, true);
     setNavigate(2);
   };
@@ -230,10 +231,15 @@ export default function MainComponent(props) {
         ref={controls}
         smoothTime={1.6}
         enableZoom={false}
-        maxAzimuthAngle={0.1}
-        minAzimuthAngle={-0.1}
+        maxAzimuthAngle={0}
+        minAzimuthAngle={0}
         maxPolarAngle={1.5}
+        enabled={onCamera}
+        onStart={() => {
+          setOnCamera(false);
+        }}
       />
+
       <Environment preset="forest" />
     </>
   );

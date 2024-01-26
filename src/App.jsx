@@ -4,6 +4,7 @@ import MainComponent from "./components/MainComponent";
 import {
   CameraControls,
   OrbitControls,
+  PresentationControls,
   Scroll,
   ScrollControls,
   Shadow,
