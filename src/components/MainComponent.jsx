@@ -156,7 +156,7 @@ export default function MainComponent(props) {
           position-x={2}
           position-z={0}
         >
-          <Room />
+          <Room setNavigate={setNavigate} />
 
           <motion.group
             name="Avatar"

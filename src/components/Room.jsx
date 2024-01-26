@@ -10,7 +10,7 @@ import * as THREE from "three";
 import { motion } from "framer-motion-3d";
 
 export function Room(props) {
-  const { cameraRef, setOnMonitor } = props;
+  const { cameraRef, setNavigate } = props;
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("models/room.glb");
   const { actions } = useAnimations(animations, group);
@@ -232,6 +232,9 @@ export function Room(props) {
         name="Monitor1"
         position={[0.368, 1.76, -3.586]}
         rotation={[0, -1.115, 0]}
+        onClick={() => {
+          setNavigate(0);
+        }}
       >
         <mesh
           name="mesh941242678"
@@ -248,6 +251,9 @@ export function Room(props) {
         name="Monitor2"
         position={[1.609, 1.76, -3.712]}
         rotation={[Math.PI, -1.325, Math.PI]}
+        onClick={() => {
+          setNavigate(0);
+        }}
       >
         <mesh
           name="mesh941242678001"
