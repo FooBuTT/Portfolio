@@ -13,13 +13,23 @@ import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { Color } from "three";
 import { Bloom, Depth, EffectComposer } from "@react-three/postprocessing";
+import { useControls } from "leva";
 
 export default function MainComponent(props) {
-  const { onMonitor, navigate, setNavigate, setOnMonitor } = props;
-  const controls = useRef();
+  const { navigate, setNavigate } = props;
+  const [onCamera, setOnCamera] = useState(true);
+  const [characterAnimation, setCharacterAnimation] = useState("Typing");
 
+  const controls = useRef();
   const bloomColor = new Color("#fff");
   bloomColor.multiplyScalar(1.1);
+
+  useEffect(() => {
+    setCharacterAnimation("Falling");
+    setTimeout(() => {
+      setCharacterAnimation(navigate === 0 ? "Typing" : "Standing");
+    }, 600);
+  }, [navigate]);
 
   const intro = async () => {
     controls.current.dolly(-22);
@@ -27,11 +37,18 @@ export default function MainComponent(props) {
     controls.current.dolly(22, true);
   };
   const aboutPage = () => {
+    controls.current.dolly(-8);
+    controls.current.smoothTime = 0.5;
+    controls.current.dolly(8, true);
     setNavigate(1);
   };
   const contactPage = () => {
+    controls.current.dolly(-8);
+    controls.current.smoothTime = 0.5;
+    controls.current.dolly(8, true);
     setNavigate(2);
   };
+
   useEffect(() => {
     intro();
   }, []);
@@ -76,14 +93,6 @@ export default function MainComponent(props) {
               : 0,
         }}
       >
-        <CameraControls
-          ref={controls}
-          smoothTime={1.6}
-          enableZoom={false}
-          maxAzimuthAngle={0.1}
-          minAzimuthAngle={-0.1}
-          maxPolarAngle={1.5}
-        />
         <group position-x={-1.5} position-y={1} position-z={2}>
           <Text
             font={"fonts/Poppins-Medium.ttf"}
@@ -120,6 +129,7 @@ export default function MainComponent(props) {
           </Text>
         </motion.group>
         <motion.group
+          name="AboutContact"
           position-x={-1.3}
           position-y={0}
           position-z={1}
@@ -147,16 +157,59 @@ export default function MainComponent(props) {
           position-z={0}
         >
           <Room />
-          <group
-            position={[1.101, 0.076, -1.817]}
+
+          <motion.group
+            name="Avatar"
             rotation={[-Math.PI, 0.06, -Math.PI]}
-            scale={2.018}
+            rotation-x={-Math.PI / 2}
+            animate={{
+              x:
+                navigate === 0
+                  ? 1
+                  : navigate === 1
+                  ? 0.7
+                  : navigate === 2
+                  ? 1.2
+                  : -1,
+              y:
+                navigate === 0
+                  ? 0.1
+                  : navigate === 1
+                  ? 1.9
+                  : navigate === 2
+                  ? 1.9
+                  : -1,
+              z:
+                navigate === 0
+                  ? -1.8
+                  : navigate === 1
+                  ? -3.5
+                  : navigate === 2
+                  ? -3.7
+                  : -1,
+              scale:
+                navigate === 0
+                  ? 2.018
+                  : navigate === 1
+                  ? 0.2
+                  : navigate === 2
+                  ? 0.2
+                  : -1,
+              rotateZ:
+                navigate === 0
+                  ? -Math.PI
+                  : navigate === 1
+                  ? 0.1
+                  : navigate === 2
+                  ? 0.1
+                  : -1,
+            }}
           >
-            <Avatar />
-          </group>
+            <Avatar animation={characterAnimation} />
+          </motion.group>
         </group>
       </motion.group>
-      <mesh position-y={-0.48} rotation-x={-Math.PI / 2}>
+      <mesh name="Floor" position-y={-0.48} rotation-x={-Math.PI / 2}>
         <planeGeometry args={[100, 100]} />
         <MeshReflectorMaterial
           blur={[100, 100]}
@@ -173,6 +226,14 @@ export default function MainComponent(props) {
           metalness={1}
         />
       </mesh>
+      <CameraControls
+        ref={controls}
+        smoothTime={1.6}
+        enableZoom={false}
+        maxAzimuthAngle={0.1}
+        minAzimuthAngle={-0.1}
+        maxPolarAngle={1.5}
+      />
       <Environment preset="forest" />
     </>
   );

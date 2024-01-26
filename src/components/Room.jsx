@@ -233,13 +233,10 @@ export function Room(props) {
         position={[0.368, 1.76, -3.586]}
         rotation={[0, -1.115, 0]}
       >
-        <motion.mesh
+        <mesh
           name="mesh941242678"
           geometry={nodes.mesh941242678.geometry}
           material={textureMaterial}
-          whileHover={{
-            scale: 1.2,
-          }}
         />
         <mesh
           name="mesh941242678_1"
@@ -257,13 +254,10 @@ export function Room(props) {
           geometry={nodes.mesh941242678001.geometry}
           material={textureMaterial}
         />
-        <motion.mesh
+        <mesh
           name="mesh941242678001_1"
           geometry={nodes.mesh941242678001_1.geometry}
           material={textureMaterial}
-          whileHover={{
-            scale: 1.2,
-          }}
         />
       </group>
       <group

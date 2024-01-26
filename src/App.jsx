@@ -2,12 +2,13 @@ import { Canvas } from "@react-three/fiber";
 
 import MainComponent from "./components/MainComponent";
 import {
+  CameraControls,
   OrbitControls,
   Scroll,
   ScrollControls,
   Shadow,
 } from "@react-three/drei";
-import Interface from "./components/Ui/Interface";
+
 import { useEffect, useRef, useState } from "react";
 import NavigateController from "./components/Ui/NavigateController";
 import { MotionConfig } from "framer-motion";
@@ -18,6 +19,7 @@ import {
   Noise,
   Vignette,
 } from "@react-three/postprocessing";
+
 function App() {
   const [navigate, setNavigate] = useState(0);
   const [onMonitor, setOnMonitor] = useState(false);
@@ -55,7 +57,10 @@ function App() {
           />
 
           {/* <Scroll html>
-              <Interface onMonitor={onMonitor} setOnMonitor={setOnMonitor} />
+              <SkillsSection
+                onMonitor={onMonitor}
+                setOnMonitor={setOnMonitor}
+              />
             </Scroll>
           </ScrollControls> */}
           {/* <EffectComposer>
