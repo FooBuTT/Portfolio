@@ -1,4 +1,4 @@
-import { Avatar } from "./Avatar";
+import Avatar from "./Avatar";
 import React, { useEffect, useRef, useState } from "react";
 import { Room } from "./Room";
 import { motion } from "framer-motion-3d";
@@ -11,7 +11,7 @@ import {
 } from "@react-three/drei";
 import { degToRad } from "three/src/math/MathUtils";
 import { CameraControls } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Color } from "three";
 import { Bloom, Depth, EffectComposer } from "@react-three/postprocessing";
 import { useControls } from "leva";
@@ -53,6 +53,7 @@ export default function MainComponent(props) {
   useEffect(() => {
     intro();
   }, []);
+
   return (
     <>
       <motion.group
@@ -64,7 +65,7 @@ export default function MainComponent(props) {
             navigate === 0
               ? 0
               : navigate === 1
-              ? -2.5
+              ? -2.6
               : navigate === 2
               ? -0.4
               : 0,
@@ -80,7 +81,7 @@ export default function MainComponent(props) {
             navigate === 0
               ? 0
               : navigate === 1
-              ? 9.9
+              ? 10.1
               : navigate === 2
               ? 11.3
               : 0,
@@ -171,15 +172,15 @@ export default function MainComponent(props) {
                   ? 0.7
                   : navigate === 2
                   ? 1.2
-                  : -1,
+                  : 1,
               y:
                 navigate === 0
                   ? 0.1
                   : navigate === 1
                   ? 1.9
                   : navigate === 2
-                  ? 1.9
-                  : -1,
+                  ? 1.85
+                  : 0.1,
               z:
                 navigate === 0
                   ? -1.8
@@ -187,15 +188,15 @@ export default function MainComponent(props) {
                   ? -3.5
                   : navigate === 2
                   ? -3.7
-                  : -1,
+                  : -1.8,
               scale:
                 navigate === 0
                   ? 2.018
                   : navigate === 1
-                  ? 0.2
+                  ? 0.27
                   : navigate === 2
-                  ? 0.2
-                  : -1,
+                  ? 0.27
+                  : 2.018,
               rotateZ:
                 navigate === 0
                   ? -Math.PI
@@ -229,7 +230,7 @@ export default function MainComponent(props) {
       </mesh>
       <CameraControls
         ref={controls}
-        smoothTime={1.6}
+        smoothTime={1}
         enableZoom={false}
         maxAzimuthAngle={0}
         minAzimuthAngle={0}

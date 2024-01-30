@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #root {
   width: 100vw;
   height: 100vh;
@@ -5,27 +9,4 @@
 
 body {
   margin: 0;
-}
-
-.NavigateContainer {
-  color: white;
-  height: 100vh;
-  width: 100vw;
-
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-.NavigateWrap {
-  margin-left: 8px;
-  color: blue;
-}
-.homeSection {
-  margin-left: 100px;
-  margin-top: 180px;
-}
-button {
-  color: white;
-  background-color: blue;
-  border-radius: 10px;
 }

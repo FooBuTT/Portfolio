@@ -1,25 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 
 import MainComponent from "./components/MainComponent";
-import {
-  CameraControls,
-  OrbitControls,
-  PresentationControls,
-  Scroll,
-  ScrollControls,
-  Shadow,
-} from "@react-three/drei";
 
-import { useEffect, useRef, useState } from "react";
-import NavigateController from "./components/Ui/NavigateController";
+import { useState } from "react";
+
 import { MotionConfig } from "framer-motion";
-import {
-  Bloom,
-  DepthOfField,
-  EffectComposer,
-  Noise,
-  Vignette,
-} from "@react-three/postprocessing";
+
+import SkillsSection from "./components/Ui/SkillsSection";
+import { Scroll, ScrollControls } from "@react-three/drei";
 
 function App() {
   const [navigate, setNavigate] = useState(0);
@@ -47,28 +35,24 @@ function App() {
           <fog attach="fog" args={["#171720", 10, 30]} />
           <ambientLight intensity={1} />
 
-          {/* <ScrollControls pages={4} damping={0.1}> */}
-          {/* <NavigateController navigate={navigate} setNavigate={setNavigate} /> */}
+          <ScrollControls pages={1} damping={0.1}>
+            {/* <NavigateController navigate={navigate} setNavigate={setNavigate} /> */}
 
-          <MainComponent
-            onMonitor={onMonitor}
-            setOnMonitor={setOnMonitor}
-            navigate={navigate}
-            setNavigate={setNavigate}
-          />
-
-          {/* <Scroll html>
-              <SkillsSection
-                onMonitor={onMonitor}
-                setOnMonitor={setOnMonitor}
-              />
+            <MainComponent
+              onMonitor={onMonitor}
+              setOnMonitor={setOnMonitor}
+              navigate={navigate}
+              setNavigate={setNavigate}
+            />
+            <Scroll html>
+              <SkillsSection navigate={navigate} setNavigate={setNavigate} />\
             </Scroll>
-          </ScrollControls> */}
+          </ScrollControls>
           {/* <EffectComposer>
             <Bloom
-              intensity={1}
-              luminanceThreshold={0}
-              luminanceSmoothing={9}
+            intensity={1}
+            luminanceThreshold={0}
+            luminanceSmoothing={9}
             />
           </EffectComposer> */}
         </Canvas>

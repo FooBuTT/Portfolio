@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
-export function Avatar(props) {
+export default function Avatar(props) {
   const { animation } = props;
   const group = useRef();
 
@@ -35,7 +35,7 @@ export function Avatar(props) {
   useEffect(() => {
     actions[animation].reset().play();
     return () => {
-      actions[animation].reset();
+      actions[animation].reset().fadeOut();
     };
   }, [animation]);
 
