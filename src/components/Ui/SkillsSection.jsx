@@ -58,10 +58,10 @@ export default function SkillsSection(props) {
           whileInView={"visible"}
           animate={{
             duration: 0.1,
-            scale: 0.5,
+            scale: 0.45,
             scaleX: 1.5,
             x: 330,
-            y: -40,
+            y: -35,
           }}
         >
           <h2 className="text-5xl font-bold text-white">Skills</h2>
@@ -87,7 +87,7 @@ export default function SkillsSection(props) {
                 </motion.h3>
                 <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
                   <motion.div
-                    className="h-full bg-indigo-500 rounded-full "
+                    className="h-full bg-red-600 rounded-full "
                     style={{ width: `${skill.level}%` }}
                     initial={{
                       scaleX: 0,
@@ -131,7 +131,7 @@ export default function SkillsSection(props) {
                   </motion.h3>
                   <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
                     <motion.div
-                      className="h-full bg-indigo-500 rounded-full "
+                      className="h-full bg-red-600 rounded-full "
                       style={{ width: `${lng.level}%` }}
                       initial={{
                         scaleX: 0,
