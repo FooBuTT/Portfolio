@@ -69,13 +69,15 @@ export default function MainComponent(props) {
         // position={[-2.8, 1.5, 5.7]}
         rotation-x={6.3}
         rotation-y={-Math.PI / 7}
-        scale={onMobile ? 0.32 : 1}
+        scale={onMobile ? 0.3 : 1}
         animate={{
           x:
             navigate === 0
               ? 0
               : navigate === 1
-              ? -2.6
+              ? onMobile
+                ? -0.8
+                : -2.6
               : navigate === 2
               ? -0.4
               : 0,
@@ -83,7 +85,9 @@ export default function MainComponent(props) {
             navigate === 0
               ? 0
               : navigate === 1
-              ? 1.7
+              ? onMobile
+                ? 2.6
+                : 1.7
               : navigate === 2
               ? 1.7
               : 0,
@@ -91,7 +95,9 @@ export default function MainComponent(props) {
             navigate === 0
               ? 0
               : navigate === 1
-              ? 10.1
+              ? onMobile
+                ? 8.6
+                : 10.1
               : navigate === 2
               ? 11.3
               : 0,
@@ -141,7 +147,7 @@ export default function MainComponent(props) {
           </Text>
         </motion.group>
         <motion.group
-          name="AboutContact"
+          name="ContactMe"
           position-x={-1.3}
           position-y={0}
           position-z={1}
