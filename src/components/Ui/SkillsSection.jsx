@@ -1,13 +1,36 @@
 import { Html, Text } from "@react-three/drei";
 import React from "react";
 import { motion } from "framer-motion";
+import { useThree } from "@react-three/fiber";
 export default function SkillsSection(props) {
-  const { navigate, setNavigate } = props;
+  const { navigate, setNavigate, onMobile } = props;
 
   const Section = (props) => {
-    const { children } = props;
+    const { children, mobileTop } = props;
 
-    return <section>{children}</section>;
+    return (
+      <motion.section
+        className={`
+  h-screen 
+  flex flex-col items-start
+  ${mobileTop ? "justify-start md:justify-center" : "justify-center"}
+  `}
+        initial={{
+          opacity: 0,
+          y: 50,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 1,
+            delay: 0.6,
+          },
+        }}
+      >
+        {children}
+      </motion.section>
+    );
   };
 
   const skills = [
@@ -58,10 +81,10 @@ export default function SkillsSection(props) {
           whileInView={"visible"}
           animate={{
             duration: 0.1,
-            scale: 0.45,
-            scaleX: 1.5,
-            x: 330,
-            y: -35,
+
+            scaleX: onMobile ? 0.6 : 0.8,
+            scaleY: onMobile ? 0.6 : 0.8,
+            scaleZ: onMobile ? 0.6 : 0.8,
           }}
         >
           <h2 className="text-5xl font-bold text-white">Skills</h2>

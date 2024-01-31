@@ -6,6 +6,8 @@ import {
   Environment,
   MeshReflectorMaterial,
   PresentationControls,
+  Scroll,
+  ScrollControls,
   Text,
   Text3D,
 } from "@react-three/drei";
@@ -15,6 +17,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Color } from "three";
 import { Bloom, Depth, EffectComposer } from "@react-three/postprocessing";
 import { useControls } from "leva";
+import SkillsSection from "./Ui/SkillsSection";
 
 export default function MainComponent(props) {
   const { navigate, setNavigate } = props;
@@ -22,6 +25,12 @@ export default function MainComponent(props) {
   const [characterAnimation, setCharacterAnimation] = useState("Typing");
 
   const controls = useRef();
+  const { viewport } = useThree();
+
+  const onMobile = window.innerWidth < 768;
+  const responsiveRatio = viewport.width / 12;
+  const officeScaleRatio = Math.max(0.5, Math.min(0.9 * responsiveRatio, 0.9));
+
   const bloomColor = new Color("#fff");
   bloomColor.multiplyScalar(1.1);
 
@@ -60,6 +69,7 @@ export default function MainComponent(props) {
         // position={[-2.8, 1.5, 5.7]}
         rotation-x={6.3}
         rotation-y={-Math.PI / 7}
+        scale={onMobile ? 0.32 : 1}
         animate={{
           x:
             navigate === 0
@@ -156,6 +166,7 @@ export default function MainComponent(props) {
           scale={0.5}
           rotation-y={degToRad(-60)}
           position-x={2}
+          position-y={0}
           position-z={0}
         >
           <Room setNavigate={setNavigate} />
@@ -240,6 +251,16 @@ export default function MainComponent(props) {
           setOnCamera(false);
         }}
       />
+      <ScrollControls>
+        <Scroll html>
+          <SkillsSection
+            navigate={navigate}
+            setNavigate={setNavigate}
+            onMobile={onMobile}
+          />
+          \
+        </Scroll>
+      </ScrollControls>
 
       <Environment preset="forest" />
     </>

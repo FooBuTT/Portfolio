@@ -35,19 +35,17 @@ function App() {
           <fog attach="fog" args={["#171720", 10, 30]} />
           <ambientLight intensity={1} />
 
-          <ScrollControls pages={1} damping={0.1}>
-            {/* <NavigateController navigate={navigate} setNavigate={setNavigate} /> */}
+          {/* <ScrollControls damping={0.1}> */}
+          {/* <NavigateController navigate={navigate} setNavigate={setNavigate} /> */}
 
-            <MainComponent
-              onMonitor={onMonitor}
-              setOnMonitor={setOnMonitor}
-              navigate={navigate}
-              setNavigate={setNavigate}
-            />
-            <Scroll html>
-              <SkillsSection navigate={navigate} setNavigate={setNavigate} />\
-            </Scroll>
-          </ScrollControls>
+          <MainComponent
+            onMonitor={onMonitor}
+            setOnMonitor={setOnMonitor}
+            navigate={navigate}
+            setNavigate={setNavigate}
+          />
+
+          {/* </ScrollControls> */}
           {/* <EffectComposer>
             <Bloom
             intensity={1}
