@@ -2,9 +2,11 @@ import { Html, Text } from "@react-three/drei";
 import React from "react";
 import { motion } from "framer-motion";
 import { useThree } from "@react-three/fiber";
-export default function SkillsSection(props) {
-  const { navigate, setNavigate, onMobile } = props;
+import { ValidationError, useForm } from "@formspree/react";
 
+export default function Interface(props) {
+  const { navigate, setNavigate, onMobile } = props;
+  const [state, handleSubmit] = useForm("mayzgjbd");
   const Section = (props) => {
     const { children, mobileTop } = props;
 
@@ -12,16 +14,19 @@ export default function SkillsSection(props) {
       <motion.section
         className={`
   h-screen 
-  flex flex-col items-start
+  flex flex-col items-start 
   ${mobileTop ? "justify-start md:justify-center" : "justify-center"}
   `}
         initial={{
           opacity: 0,
           y: 50,
+          x: onMobile ? 15 : 100,
+          scale: onMobile ? 1.2 : 1,
         }}
         whileInView={{
           opacity: 1,
           y: 0,
+
           transition: {
             duration: 1,
             delay: 0.6,
@@ -76,15 +81,14 @@ export default function SkillsSection(props) {
 
   return (
     <Section>
-      {navigate === 1 && (
+      {navigate === 1 ? (
         <motion.div
           whileInView={"visible"}
           animate={{
             duration: 0.1,
 
-            scaleX: onMobile ? 0.6 : 0.8,
-            scaleY: onMobile ? 0.6 : 0.8,
-            scaleZ: onMobile ? 0.6 : 0.8,
+            scaleX: onMobile ? 0.6 : 1.2,
+            scaleY: onMobile ? 0.6 : 0.9,
           }}
         >
           <h2 className="text-5xl font-bold text-white">Skills</h2>
@@ -152,6 +156,7 @@ export default function SkillsSection(props) {
                   >
                     {lng.title}
                   </motion.h3>
+
                   <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
                     <motion.div
                       className="h-full bg-red-600 rounded-full "
@@ -173,10 +178,97 @@ export default function SkillsSection(props) {
                   </div>
                 </div>
               ))}
+              <button
+                onClick={() => setNavigate(0)}
+                className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
+              >
+                Home
+              </button>
             </div>
           </div>
         </motion.div>
-      )}
+      ) : navigate === 2 ? (
+        <Section>
+          <motion.div
+            whileInView={"visible"}
+            animate={{
+              duration: 0.1,
+              scaleX: onMobile ? 0.6 : 1.2,
+              scaleY: onMobile ? 0.6 : 1.1,
+              scaleZ: onMobile ? 0.6 : 1,
+            }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold ml-16">Contact me</h2>
+            <div className="mt-8 p-8 rounded-md bg-white bg-opacity-50 w-96 max-w-full">
+              {state.succeeded ? (
+                <p className="text-gray-900 text-center">
+                  Thanks for your message !
+                </p>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <label
+                    for="name"
+                    className="font-medium text-gray-900 block mb-1"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+                  />
+                  <label
+                    for="email"
+                    className="font-medium text-gray-900 block mb-1 mt-8"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+                  />
+                  <ValidationError
+                    className="mt-1 text-red-500"
+                    prefix="Email"
+                    field="email"
+                    errors={state.errors}
+                  />
+                  <label
+                    for="email"
+                    className="font-medium text-gray-900 block mb-1 mt-8"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    id="message"
+                    className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+                  />
+                  <ValidationError
+                    className="mt-1 text-red-500"
+                    errors={state.errors}
+                  />
+                  <button
+                    disabled={state.submitting}
+                    className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 "
+                  >
+                    Submit
+                  </button>
+                  <button
+                    onClick={() => setNavigate(0)}
+                    className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
+                  >
+                    Home
+                  </button>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        </Section>
+      ) : null}
     </Section>
   );
 }

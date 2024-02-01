@@ -8,12 +8,16 @@ import { useGLTF, useAnimations, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 import { motion } from "framer-motion-3d";
+import { ToneMapping } from "@react-three/postprocessing";
+import { Color } from "three";
 
 export function Room(props) {
   const { cameraRef, setNavigate } = props;
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("models/room.glb");
   const { actions } = useAnimations(animations, group);
+
+  const monitorColor = new THREE.MeshBasicMaterial({ color: "#007FFF" });
 
   const texture = useTexture("textures/Baked.jpg");
   texture.flipY = false;
@@ -232,14 +236,11 @@ export function Room(props) {
         name="Monitor1"
         position={[0.368, 1.76, -3.586]}
         rotation={[0, -1.115, 0]}
-        onClick={() => {
-          setNavigate(0);
-        }}
       >
         <mesh
           name="mesh941242678"
           geometry={nodes.mesh941242678.geometry}
-          material={textureMaterial}
+          material={monitorColor}
         />
         <mesh
           name="mesh941242678_1"
@@ -251,9 +252,6 @@ export function Room(props) {
         name="Monitor2"
         position={[1.609, 1.76, -3.712]}
         rotation={[Math.PI, -1.325, Math.PI]}
-        onClick={() => {
-          setNavigate(0);
-        }}
       >
         <mesh
           name="mesh941242678001"
@@ -263,7 +261,7 @@ export function Room(props) {
         <mesh
           name="mesh941242678001_1"
           geometry={nodes.mesh941242678001_1.geometry}
-          material={textureMaterial}
+          material={monitorColor}
         />
       </group>
       <group

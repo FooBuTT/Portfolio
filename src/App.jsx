@@ -2,19 +2,27 @@ import { Canvas } from "@react-three/fiber";
 
 import MainComponent from "./components/MainComponent";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { MotionConfig } from "framer-motion";
 
-import SkillsSection from "./components/Ui/SkillsSection";
+import SkillsSection from "./components/Ui/Interface";
 import { Scroll, ScrollControls } from "@react-three/drei";
+import Loading from "./components/Ui/Loading";
+import {
+  Bloom,
+  EffectComposer,
+  SelectiveBloom,
+} from "@react-three/postprocessing";
 
 function App() {
   const [navigate, setNavigate] = useState(0);
   const [onMonitor, setOnMonitor] = useState(false);
+  const [load, setLoad] = useState(false);
 
   return (
     <>
+      <Loading load={load} setLoad={setLoad} />
       <MotionConfig
         transition={{
           type: "spring",
@@ -46,13 +54,6 @@ function App() {
           />
 
           {/* </ScrollControls> */}
-          {/* <EffectComposer>
-            <Bloom
-            intensity={1}
-            luminanceThreshold={0}
-            luminanceSmoothing={9}
-            />
-          </EffectComposer> */}
         </Canvas>
       </MotionConfig>
     </>

@@ -35,7 +35,7 @@ export default function Avatar(props) {
   useEffect(() => {
     actions[animation].reset().play();
     return () => {
-      actions[animation].reset().fadeOut();
+      actions[animation].reset();
     };
   }, [animation]);
 
@@ -107,3 +107,7 @@ export default function Avatar(props) {
 }
 
 useGLTF.preload("models/avatar.glb");
+useFBX.preload("animations/Typing.fbx");
+useFBX.preload("animations/Standing.fbx");
+useFBX.preload("animations/Falling.fbx");
+useFBX.preload("animations/Running.fbx");
