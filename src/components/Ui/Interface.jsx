@@ -6,7 +6,7 @@ import { ValidationError, useForm } from "@formspree/react";
 
 export default function Interface(props) {
   const { navigate, setNavigate, onMobile } = props;
-  const [state, handleSubmit] = useForm("mayzgjbd");
+  const [state, handleSubmit] = useForm("xjvnyvlv");
   const Section = (props) => {
     const { children, mobileTop } = props;
 
@@ -201,9 +201,17 @@ export default function Interface(props) {
             <h2 className="text-3xl md:text-5xl font-bold ml-16">Contact me</h2>
             <div className="mt-8 p-8 rounded-md bg-white bg-opacity-50 w-96 max-w-full">
               {state.succeeded ? (
-                <p className="text-gray-900 text-center">
-                  Thanks for your message !
-                </p>
+                <>
+                  <p className="text-gray-900 text-center">
+                    Thanks for your message !
+                  </p>
+                  <button
+                    onClick={() => setNavigate(0)}
+                    className="bg-indigo-600 text-white py-4 px-20 rounded-lg font-bold text-lg ml-14  "
+                  >
+                    Home
+                  </button>
+                </>
               ) : (
                 <form onSubmit={handleSubmit}>
                   <label
