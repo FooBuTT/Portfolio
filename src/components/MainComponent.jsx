@@ -277,10 +277,10 @@ export default function MainComponent(props) {
       <mesh name="Floor" position-y={-0.48} rotation-x={-Math.PI / 2}>
         <planeGeometry args={[100, 100]} />
         <MeshReflectorMaterial
-          blur={[100, 100]}
-          resolution={1024}
+          blur={[50, 50]}
+          resolution={512}
           mixBlur={1}
-          mixStrength={20}
+          mixStrength={10}
           roughness={1}
           depthScale={1}
           opacity={0.5}
@@ -301,7 +301,7 @@ export default function MainComponent(props) {
         enabled={false}
       />
 
-      <Html position-x={onMobile ? -1.3 : -2} position-y={3}>
+      <Html position-x={onMobile ? -1.5 : -2} position-y={3}>
         <Interface
           navigate={navigate}
           setNavigate={setNavigate}

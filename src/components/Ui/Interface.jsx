@@ -213,65 +213,67 @@ export default function Interface(props) {
                   </button>
                 </>
               ) : (
-                <form onSubmit={handleSubmit}>
-                  <label
-                    for="name"
-                    className="font-medium text-gray-900 block mb-1"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-                  />
-                  <label
-                    for="email"
-                    className="font-medium text-gray-900 block mb-1 mt-8"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-                  />
-                  <ValidationError
-                    className="mt-1 text-red-500"
-                    prefix="Email"
-                    field="email"
-                    errors={state.errors}
-                  />
-                  <label
-                    for="email"
-                    className="font-medium text-gray-900 block mb-1 mt-8"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    id="message"
-                    className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
-                  />
-                  <ValidationError
-                    className="mt-1 text-red-500"
-                    errors={state.errors}
-                  />
-                  <button
-                    disabled={state.submitting}
-                    className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 "
-                  >
-                    Submit
-                  </button>
+                <>
                   <button
                     onClick={() => setNavigate(0)}
-                    className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
+                    className="bg-indigo-600 text-white py-0 px-1 rounded-lg font-bold text-xl ml-80    "
                   >
-                    Home
+                    X
                   </button>
-                </form>
+                  <form onSubmit={handleSubmit}>
+                    <label
+                      htmlFor="name"
+                      className="font-medium text-gray-900 block mb-1"
+                    >
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+                    />
+                    <label
+                      htmlFor="email"
+                      className="font-medium text-gray-900 block mb-1 mt-8"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+                    />
+                    <ValidationError
+                      className="mt-1 text-red-500"
+                      prefix="Email"
+                      field="email"
+                      errors={state.errors}
+                    />
+                    <label
+                      htmlFor="email"
+                      className="font-medium text-gray-900 block mb-1 mt-8"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+                    />
+                    <ValidationError
+                      className="mt-1 text-red-500"
+                      errors={state.errors}
+                    />
+                    <button
+                      disabled={state.submitting}
+                      className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg ml-24 "
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </>
               )}
             </div>
           </motion.div>

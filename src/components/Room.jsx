@@ -21,7 +21,7 @@ export function Room(props) {
 
   const texture = useTexture("textures/Baked.jpg");
   texture.flipY = false;
-  texture.encoding = THREE.sRGBEncoding;
+  texture.colorSpace = THREE.SRGBColorSpace;
   const textureMaterial = new THREE.MeshStandardMaterial({ map: texture });
 
   return (
