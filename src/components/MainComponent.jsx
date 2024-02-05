@@ -187,7 +187,6 @@ export default function MainComponent(props) {
             color={bloomColor}
           >
             ContactMe
-            <meshBasicMaterial />
           </Text>
         </motion.group>
 

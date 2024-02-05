@@ -179,7 +179,8 @@ export default function Interface(props) {
                 </div>
               ))}
               <button
-                onClick={() => {
+                type="button"
+                onClick={(e) => {
                   e.preventDefault();
                   setNavigate(0);
                 }}
