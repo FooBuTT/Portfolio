@@ -179,7 +179,10 @@ export default function Interface(props) {
                 </div>
               ))}
               <button
-                onClick={() => setNavigate(0)}
+                onClick={() => {
+                  e.preventDefault();
+                  setNavigate(0);
+                }}
                 className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
               >
                 Home
@@ -220,7 +223,7 @@ export default function Interface(props) {
                   >
                     X
                   </button>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit} autoComplete="off">
                     <label
                       htmlFor="name"
                       className="font-medium text-gray-900 block mb-1"
