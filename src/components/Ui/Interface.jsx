@@ -210,7 +210,11 @@ export default function Interface(props) {
                     Thanks for your message !
                   </p>
                   <button
-                    onClick={() => setNavigate(0)}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setNavigate(0);
+                    }}
                     className="bg-indigo-600 text-white py-4 px-20 rounded-lg font-bold text-lg ml-14  "
                   >
                     Home
@@ -219,7 +223,11 @@ export default function Interface(props) {
               ) : (
                 <>
                   <button
-                    onClick={() => setNavigate(0)}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setNavigate(0);
+                    }}
                     className="bg-indigo-600 text-white py-0 px-1 rounded-lg font-bold text-xl ml-80    "
                   >
                     X
