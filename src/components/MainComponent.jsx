@@ -64,7 +64,11 @@ export default function MainComponent(props) {
       groupRef.current.visible = true;
     }
   }, [currentPage]);
-
+  useFrame(() => {
+    if (currentPage === "about") {
+      avatarRef.current.rotation.z += 0.01;
+    }
+  });
   return (
     <>
       <PresentationControls
@@ -87,12 +91,12 @@ export default function MainComponent(props) {
                   : 2.7,
               y: -0.1,
               z:
-                currentPage === "about" || currentPage === "contact" ? -1 : 1.6,
+                currentPage === "about" || currentPage === "contact" ? -2 : 1.6,
               scale:
                 currentPage === "about" || currentPage === "contact"
                   ? onMobile
-                    ? 0.6
-                    : 1.1
+                    ? 1
+                    : 1.4
                   : 1,
               rotateX: -1.5,
 
@@ -100,9 +104,6 @@ export default function MainComponent(props) {
                 currentPage === "about" || currentPage === "contact"
                   ? -0.5
                   : [Math.PI / 1.75],
-              transition: {
-                delay: 0.8,
-              },
             }}
           >
             <Avatar animation={characterAnimation} />

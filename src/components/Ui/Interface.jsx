@@ -1,7 +1,5 @@
-import { Html, Text } from "@react-three/drei";
 import React from "react";
 import { motion } from "framer-motion";
-import { useThree } from "@react-three/fiber";
 import { ValidationError, useForm } from "@formspree/react";
 import { setCurrentPage } from "../../features/redux/slices/cameraSlice";
 
@@ -87,12 +85,7 @@ export default function Interface(props) {
       {navigate === 1 ? (
         <motion.div
           whileInView={"visible"}
-          animate={{
-            duration: 0.3,
-
-            scaleX: onMobile ? 1.2 : 1.4,
-            scaleY: onMobile ? 1.2 : 1.2,
-          }}
+          className="w-full h-full flex flex-col items-center justify-center"
         >
           <h2 className="text-5xl font-bold text-white">Skills</h2>
           <div className=" mt-8 space-y-4">

@@ -22,14 +22,14 @@ export default function CameraPositionControls(props) {
 
   const intro = async () => {
     controls.current.dolly(-22);
-    controls.current.smoothTime = 1.2;
+    controls.current.smoothTime = 1.6;
 
     fitCamera();
   };
 
   const fitCamera = async () => {
     if (currentPage === "about" || currentPage === "contact") {
-      controls.current.fitToBox(monitorObj, true);
+      controls.current.fitToBox(meshFitAbout.current, true);
       controls.current.smoothTime = 0.6;
     } else {
       controls.current.fitToBox(meshFitCamera.current, true);
@@ -65,9 +65,9 @@ export default function CameraPositionControls(props) {
         <boxGeometry args={[9, 3, 5]} />
         <meshBasicMaterial color={"#fff"} transparent opacity={0.5} />
       </mesh>
-      <group ref={aboutRef}>
+      <group ref={aboutRef} position={[3.5, 0.9, 1]}>
         <mesh name="CameraAboutSpot" ref={meshFitAbout} visible={false}>
-          <boxGeometry args={[0.4, 0.4, 0]} />
+          <boxGeometry args={[0.2, 0.1, -1]} />
           <meshBasicMaterial color={"red"} transparent opacity={0.5} />
         </mesh>
       </group>
