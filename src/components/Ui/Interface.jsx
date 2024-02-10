@@ -3,9 +3,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useThree } from "@react-three/fiber";
 import { ValidationError, useForm } from "@formspree/react";
+import { setCurrentPage } from "../../features/redux/slices/cameraSlice";
 
 export default function Interface(props) {
-  const { navigate, setNavigate, onMobile } = props;
+  const { navigate, setNavigate, onMobile, dispatch } = props;
+
   const [state, handleSubmit] = useForm("xjvnyvlv");
   const Section = (props) => {
     const { children, mobileTop } = props;
@@ -21,14 +23,15 @@ export default function Interface(props) {
           opacity: 0,
           y: 50,
           x: onMobile ? 15 : 100,
-          scale: onMobile ? 1.2 : 1,
+
+          scale: 0.8,
         }}
         whileInView={{
           opacity: 1,
           y: 0,
 
           transition: {
-            duration: 1,
+            duration: 0.5,
             delay: 0.6,
           },
         }}
@@ -85,10 +88,10 @@ export default function Interface(props) {
         <motion.div
           whileInView={"visible"}
           animate={{
-            duration: 0.1,
+            duration: 0.3,
 
-            scaleX: onMobile ? 0.6 : 1.2,
-            scaleY: onMobile ? 0.6 : 0.9,
+            scaleX: onMobile ? 1.2 : 1.4,
+            scaleY: onMobile ? 1.2 : 1.2,
           }}
         >
           <h2 className="text-5xl font-bold text-white">Skills</h2>
@@ -180,11 +183,11 @@ export default function Interface(props) {
               ))}
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
+                onClick={() => {
+                  dispatch(setCurrentPage("home"));
                   setNavigate(0);
                 }}
-                className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
               >
                 Home
               </button>
@@ -197,12 +200,12 @@ export default function Interface(props) {
             whileInView={"visible"}
             animate={{
               duration: 0.1,
-              scaleX: onMobile ? 0.6 : 1.2,
-              scaleY: onMobile ? 0.6 : 1.1,
-              scaleZ: onMobile ? 0.6 : 1,
+              scaleX: onMobile ? 1 : 2.5,
+              scaleY: onMobile ? 1 : 1.9,
+              x: onMobile ? -125 : 175,
             }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold ml-16">Contact me</h2>
+            <h2 className="text-5xl md:text-5xl font-bold ml-16">Contact me</h2>
             <div className="mt-8 p-8 rounded-md bg-white bg-opacity-50 w-96 max-w-full">
               {state.succeeded ? (
                 <>
@@ -212,7 +215,7 @@ export default function Interface(props) {
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.preventDefault();
+                      dispatch(setCurrentPage("home"));
                       setNavigate(0);
                     }}
                     className="bg-indigo-600 text-white py-4 px-20 rounded-lg font-bold text-lg ml-14  "
@@ -225,7 +228,7 @@ export default function Interface(props) {
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.preventDefault();
+                      dispatch(setCurrentPage("home"));
                       setNavigate(0);
                     }}
                     className="bg-indigo-600 text-white py-0 px-1 rounded-lg font-bold text-xl ml-80    "

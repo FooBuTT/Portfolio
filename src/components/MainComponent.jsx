@@ -1,5 +1,5 @@
 import Avatar from "./Avatar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Room } from "./Room";
 import { motion } from "framer-motion-3d";
 import {
@@ -10,30 +10,42 @@ import {
   Text,
   useFont,
 } from "@react-three/drei";
-import { degToRad } from "three/src/math/MathUtils";
+import { degToRad, lerp } from "three/src/math/MathUtils";
 import { CameraControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Color } from "three";
 import { Bloom, Depth, EffectComposer } from "@react-three/postprocessing";
-
+import * as THREE from "three";
 import Interface from "./Ui/Interface";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPage } from "../features/redux/slices/cameraSlice";
 
 export default function MainComponent(props) {
   const { navigate, setNavigate } = props;
-  const [onCamera, setOnCamera] = useState(true);
   const [characterAnimation, setCharacterAnimation] = useState("Typing");
+  const groupRef = useRef();
+  const avatarRef = useRef();
 
-  const controls = useRef();
-  const { viewport } = useThree();
-
+  const currentPage = useSelector((state) => state.camera.value);
   const onMobile = window.innerWidth < 768;
-  const responsiveRatio = viewport.width / 12;
-  const officeScaleRatio = Math.max(0.5, Math.min(0.9 * responsiveRatio, 0.9));
 
-  const bloomColor = new Color("#007FFF");
+  const dispatch = useDispatch();
+  const bloomColor = new Color("#fff");
   bloomColor.multiplyScalar(1.1);
-
+  const aboutPage = async () => {
+    dispatch(setCurrentPage("about"));
+    setTimeout(() => {
+      setNavigate(1);
+    }, 1000);
+  };
+  const contactPage = async () => {
+    dispatch(setCurrentPage("contact"));
+    setTimeout(() => {
+      setNavigate(2);
+    }, 1000);
+  };
   useEffect(() => {
+    groupRef.current.rotation.set(0.1, -0.5, 0);
     setCharacterAnimation("Falling");
     setTimeout(() => {
       setCharacterAnimation(
@@ -42,278 +54,171 @@ export default function MainComponent(props) {
     }, 600);
   }, [navigate]);
 
-  const intro = async () => {
-    controls.current.dolly(-22);
-    controls.current.smoothTime = 0.5;
-    controls.current.dolly(22, true);
-  };
-  const aboutPage = async () => {
-    controls.current.dolly(-8);
-    controls.current.smoothTime = 0.1;
-    controls.current.dolly(8, true);
-    setNavigate(1);
-  };
-  const contactPage = async () => {
-    controls.current.dolly(-8);
-    controls.current.smoothTime = 0.1;
-    controls.current.dolly(8, true);
-    setNavigate(2);
-  };
-
   useEffect(() => {
-    intro();
-  }, []);
+    if (currentPage === "about" || currentPage === "contact") {
+      setTimeout(() => {
+        groupRef.current.visible = false;
+      }, 2000);
+    }
+    if (currentPage === "home") {
+      groupRef.current.visible = true;
+    }
+  }, [currentPage]);
 
   return (
     <>
-      <motion.group
-        // position={[-2.8, 1.5, 5.7]}
-        rotation-x={6.3}
-        rotation-y={-Math.PI / 7}
-        scale={onMobile ? 0.3 : 1}
-        animate={{
-          x:
-            navigate === 0
-              ? 0
-              : navigate === 1
-              ? onMobile
-                ? -0.7
-                : -2.3
-              : navigate === 2
-              ? onMobile
-                ? -0.2
-                : -0.4
-              : 0,
-          y:
-            navigate === 0
-              ? 0
-              : navigate === 1
-              ? onMobile
-                ? 2.62
-                : 1.8
-              : navigate === 2
-              ? onMobile
-                ? 2.61
-                : 1.83
-              : 0,
-          z:
-            navigate === 0
-              ? 0
-              : navigate === 1
-              ? onMobile
-                ? 8.75
-                : 10.6
-              : navigate === 2
-              ? onMobile
-                ? 9.06
-                : 11.65
-              : 0,
-          rotateY:
-            navigate === 0
-              ? -Math.PI / 7
-              : navigate === 1
-              ? 0.4
-              : navigate === 2
-              ? onMobile
-                ? 1.05
-                : 1.1
-              : 0,
-        }}
+      <PresentationControls
+        global
+        config={{ mass: 2, tension: 500 }}
+        snap={{ mass: 2, tension: 1500 }}
       >
-        <group position-x={-1.5} position-y={1} position-z={2}>
-          <Text
-            font={"fonts/Poppins-Medium.ttf"}
-            fontSize={0.35}
-            lineHeight={1.2}
-            textAlign="center"
-            rotation-y={degToRad(75)}
-          >
-            Hi everyone!!!{"\n"}
-            My name is Oleg, and I am {"\n"}a FullStack developer.{"\n"}
-            This is my Portfolio page.{"\n"}
-            <meshBasicMaterial color={"#007aa5"} />
-          </Text>
-        </group>
-        <motion.group
-          position-x={-2}
-          position-y={0}
-          position-z={3.5}
-          scale={0.25}
-          animate={{
-            scale: [0.3, 0.25, 0.3],
-          }}
-          transition={{
-            duration: 2,
-            smoothTime: 1,
-            ease: "easeIn",
-            repeat: Infinity,
-          }}
-          onClick={() => {
-            aboutPage();
-          }}
-        >
-          <Text
-            font={"fonts/Poppins-Medium.ttf"}
-            fontSize={1.5}
-            rotation-y={degToRad(75)}
-            color={bloomColor}
-          >
-            AboutMe
-          </Text>
-        </motion.group>
-        <motion.group
-          name="ContactMe"
-          position-x={-1.3}
-          position-y={0}
-          position-z={1}
-          scale={0.25}
-          animate={{
-            scale: [0.3, 0.25, 0.3],
-          }}
-          transition={{
-            duration: 2,
-            smoothTime: 1,
-            ease: "easeIn",
-            repeat: Infinity,
-          }}
-          onClick={() => {
-            contactPage();
-          }}
-        >
-          <Text
-            font={"fonts/Poppins-Medium.ttf"}
-            fontSize={1.5}
-            rotation-y={degToRad(75)}
-            color={bloomColor}
-          >
-            ContactMe
-          </Text>
-        </motion.group>
+        <motion.group>
+          <motion.group
+            name="Avatar"
+            ref={avatarRef}
+            rotation-x={-Math.PI / 2}
+            position={[2.7, -0.1, 1.6]}
+            animate={{
+              x:
+                currentPage === "about" || currentPage === "contact"
+                  ? onMobile
+                    ? 3.4
+                    : 4
+                  : 2.7,
+              y: -0.1,
+              z:
+                currentPage === "about" || currentPage === "contact" ? -1 : 1.6,
+              scale:
+                currentPage === "about" || currentPage === "contact"
+                  ? onMobile
+                    ? 0.6
+                    : 1.1
+                  : 1,
+              rotateX: -1.5,
 
-        <PresentationControls
-          global
-          config={{ mass: 2, tension: 500 }}
-          snap={{ mass: 2, tension: 1500 }}
-          rotation={[0, 0.3, 0]}
-          polar={[-Math.PI / 3, Math.PI / 3]}
-          azimuth={[-Math.PI / 1.4, Math.PI / 2]}
-        >
-          <group
-            scale={0.5}
-            rotation-y={degToRad(-60)}
-            position-x={2}
-            position-y={0}
-            position-z={0}
+              rotateZ:
+                currentPage === "about" || currentPage === "contact"
+                  ? -0.5
+                  : [Math.PI / 1.75],
+              transition: {
+                delay: 0.8,
+              },
+            }}
           >
-            <Room setNavigate={setNavigate} />
-
+            <Avatar animation={characterAnimation} />
+          </motion.group>
+          <group ref={groupRef}>
+            <group position-x={-1.5} position-y={1} position-z={2}>
+              <Text
+                font={"fonts/Poppins-Medium.ttf"}
+                fontSize={0.35}
+                lineHeight={1.2}
+                textAlign="center"
+                rotation-y={degToRad(75)}
+              >
+                Hi everyone!!!{"\n"}
+                My name is Oleg, and I am {"\n"}a FullStack developer.{"\n"}
+                This is my Portfolio page.{"\n"}
+                <meshBasicMaterial color={"#007aa5"} />
+              </Text>
+            </group>
             <motion.group
-              name="Avatar"
-              rotation={[-Math.PI, 0.06, -Math.PI]}
-              rotation-x={-Math.PI / 2}
+              position-x={-2}
+              position-y={0}
+              position-z={3.5}
+              scale={0.25}
               animate={{
-                x:
-                  navigate === 0
-                    ? 1
-                    : navigate === 1
-                    ? onMobile
-                      ? 0.48
-                      : 0.52
-                    : navigate === 2
-                    ? onMobile
-                      ? 1.62
-                      : 1.25
-                    : 1,
-                y:
-                  navigate === 0
-                    ? 0.1
-                    : navigate === 1
-                    ? 1.98
-                    : navigate === 2
-                    ? onMobile
-                      ? 1.9
-                      : 1.8
-                    : 0.1,
-                z:
-                  navigate === 0
-                    ? -1.8
-                    : navigate === 1
-                    ? onMobile
-                      ? -3.55
-                      : -3.5
-                    : navigate === 2
-                    ? onMobile
-                      ? -3.6
-                      : -3.5
-                    : -1.8,
-                scale:
-                  navigate === 0
-                    ? 2.018
-                    : navigate === 1
-                    ? 0.15
-                    : navigate === 2
-                    ? onMobile
-                      ? 0.2
-                      : 0.2
-                    : 2.018,
-                rotateZ:
-                  navigate === 0
-                    ? -Math.PI
-                    : navigate === 1
-                    ? 0.1
-                    : navigate === 2
-                    ? onMobile
-                      ? 0
-                      : 0.1
-                    : -1.1,
+                scale: [0.3, 0.25, 0.3],
+              }}
+              transition={{
+                duration: 2,
+                smoothTime: 1,
+                ease: "easeIn",
+                repeat: Infinity,
+              }}
+              onClick={() => {
+                aboutPage();
               }}
             >
-              <Avatar animation={characterAnimation} />
+              <Text
+                font={"fonts/Poppins-Medium.ttf"}
+                fontSize={1.5}
+                rotation-y={degToRad(75)}
+                color={bloomColor}
+              >
+                AboutMe
+              </Text>
             </motion.group>
-          </group>
-        </PresentationControls>
-      </motion.group>
-      <mesh name="Floor" position-y={-0.48} rotation-x={-Math.PI / 2}>
-        <planeGeometry args={[100, 100]} />
-        <MeshReflectorMaterial
-          blur={[50, 50]}
-          resolution={512}
-          mixBlur={1}
-          mixStrength={10}
-          roughness={1}
-          depthScale={1}
-          opacity={0.5}
-          transparent
-          minDepthThreshold={0.4}
-          maxDepthThreshold={1.4}
-          color="#333"
-          metalness={1}
-        />
-      </mesh>
-      <CameraControls
-        ref={controls}
-        smoothTime={1}
-        enableZoom={false}
-        maxAzimuthAngle={0}
-        minAzimuthAngle={0}
-        maxPolarAngle={1.5}
-        enabled={false}
-      />
+            <motion.group
+              name="ContactMe"
+              position-x={-1.3}
+              position-y={0}
+              position-z={1}
+              scale={0.25}
+              animate={{
+                scale: [0.3, 0.25, 0.3],
+              }}
+              transition={{
+                duration: 2,
+                smoothTime: 1,
+                ease: "easeIn",
+                repeat: Infinity,
+              }}
+              onClick={() => {
+                contactPage();
+              }}
+            >
+              <Text
+                font={"fonts/Poppins-Medium.ttf"}
+                fontSize={1.5}
+                rotation-y={degToRad(75)}
+                color={bloomColor}
+              >
+                ContactMe
+              </Text>
+            </motion.group>
 
-      <Html position-x={onMobile ? -1.5 : -2} position-y={3}>
-        <Interface
-          navigate={navigate}
-          setNavigate={setNavigate}
-          onMobile={onMobile}
-        />
-      </Html>
-      <EffectComposer multisampling={0}>
-        <Bloom
-          intensity={1}
-          luminanceThreshold={0.6}
-          luminanceSmoothing={0.5}
-        />
-      </EffectComposer>
+            <group
+              scale={0.5}
+              rotation-y={degToRad(-60)}
+              position-x={2}
+              position-y={0}
+              position-z={0}
+            >
+              <Room setNavigate={setNavigate} />
+            </group>
+
+            <mesh name="Floor" position-y={-0.48} rotation-x={-Math.PI / 2}>
+              <planeGeometry args={[100, 100]} />
+              <MeshReflectorMaterial
+                blur={[50, 50]}
+                resolution={512}
+                mixBlur={1}
+                mixStrength={10}
+                roughness={1}
+                depthScale={1}
+                opacity={0.5}
+                transparent
+                minDepthThreshold={0.4}
+                maxDepthThreshold={1.4}
+                color="#333"
+                metalness={1}
+              />
+            </mesh>
+          </group>
+        </motion.group>
+      </PresentationControls>
+      <motion.group position={onMobile ? [1.6, 7, -6] : [-3, 7.5, -7]}>
+        <Html>
+          <Interface
+            navigate={navigate}
+            setNavigate={setNavigate}
+            onMobile={onMobile}
+            dispatch={dispatch}
+          />
+        </Html>
+      </motion.group>
+
       <Environment preset="forest" />
     </>
   );

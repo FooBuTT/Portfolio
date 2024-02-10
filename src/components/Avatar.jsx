@@ -5,7 +5,6 @@ Command: npx gltfjsx@6.2.16 public/models/untitled.glb
 
 import React, { useEffect, useRef } from "react";
 import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 
 export default function Avatar(props) {
   const { animation } = props;

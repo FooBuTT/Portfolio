@@ -1,57 +1,45 @@
-import { Canvas } from "@react-three/fiber";
-
+import { useSelector } from "react-redux";
+import { Canvas, useFrame } from "@react-three/fiber";
 import MainComponent from "./components/MainComponent";
-
-import { useRef, useState } from "react";
-
+import { Suspense, useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
-
-import SkillsSection from "./components/Ui/Interface";
-import { Scroll, ScrollControls } from "@react-three/drei";
 import Loading from "./components/Ui/Loading";
-import {
-  Bloom,
-  EffectComposer,
-  SelectiveBloom,
-} from "@react-three/postprocessing";
+import CameraPositionControls from "./components/Ui/CameraPositionControls";
 
 function App() {
   const [navigate, setNavigate] = useState(0);
-  const [onMonitor, setOnMonitor] = useState(false);
   const [load, setLoad] = useState(false);
+  const [backGroundColor, setBackGroundColor] = useState("#171720");
 
+  const currentPage = useSelector((state) => state.camera.value);
+
+  useEffect(() => {
+    if (currentPage === "about" || currentPage === "contact") {
+      setTimeout(() => {
+        setBackGroundColor("#007FFF");
+      }, 2000);
+    }
+    setBackGroundColor("#171720");
+  }, [currentPage]);
   return (
     <>
       <Loading load={load} setLoad={setLoad} />
-      <MotionConfig
-        transition={{
-          type: "spring",
-          mass: 5,
-          stiffness: 500,
-          damping: 100,
-          restDelta: 0.0001,
-        }}
-      >
-        <Canvas
-          camera={{
-            position: [0, 3, 8],
-            fov: 40,
-          }}
-          shadows
-        >
-          <color attach="background" args={["#171720"]} />
+      <MotionConfig>
+        <Canvas>
+          <CameraPositionControls
+            navigate={navigate}
+            setNavigate={setNavigate}
+          />
+
+          <color attach="background" args={[backGroundColor]} />
           <fog attach="fog" args={["#171720", 10, 30]} />
           <ambientLight intensity={1} />
 
           {/* <ScrollControls damping={0.1}> */}
           {/* <NavigateController navigate={navigate} setNavigate={setNavigate} /> */}
-
-          <MainComponent
-            onMonitor={onMonitor}
-            setOnMonitor={setOnMonitor}
-            navigate={navigate}
-            setNavigate={setNavigate}
-          />
+          <Suspense>
+            <MainComponent navigate={navigate} setNavigate={setNavigate} />
+          </Suspense>
 
           {/* </ScrollControls> */}
         </Canvas>
