@@ -1,5 +1,5 @@
 import Avatar from "./Avatar";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Room } from "./Room";
 import { motion } from "framer-motion-3d";
 import {
@@ -10,18 +10,15 @@ import {
   Text,
   useFont,
 } from "@react-three/drei";
-import { degToRad, lerp } from "three/src/math/MathUtils";
-import { CameraControls } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { degToRad } from "three/src/math/MathUtils";
+import { useFrame } from "@react-three/fiber";
 import { Color } from "three";
-import { Bloom, Depth, EffectComposer } from "@react-three/postprocessing";
-import * as THREE from "three";
 import Interface from "./Ui/Interface";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../features/redux/slices/cameraSlice";
+import { Bomb } from "./Bomb";
 
-export default function MainComponent(props) {
-  const { navigate, setNavigate } = props;
+export default function MainComponent() {
   const [characterAnimation, setCharacterAnimation] = useState("Typing");
   const groupRef = useRef();
   const avatarRef = useRef();
@@ -34,35 +31,35 @@ export default function MainComponent(props) {
   bloomColor.multiplyScalar(1.1);
   const aboutPage = async () => {
     dispatch(setCurrentPage("about"));
-    setTimeout(() => {
-      setNavigate(1);
-    }, 1000);
   };
   const contactPage = async () => {
     dispatch(setCurrentPage("contact"));
-    setTimeout(() => {
-      setNavigate(2);
-    }, 1000);
   };
+  const playPage = useCallback(async () => {
+    dispatch(setCurrentPage("play"));
+  }, []);
   useEffect(() => {
     groupRef.current.rotation.set(0.1, -0.5, 0);
     setCharacterAnimation("Falling");
     setTimeout(() => {
       setCharacterAnimation(
-        navigate === 0 ? "Typing" : navigate === 1 ? "Running" : "Standing"
+        currentPage !== "home"
+          ? currentPage === "about"
+            ? "Running"
+            : "Standing"
+          : "Typing"
       );
     }, 600);
-  }, [navigate]);
+  }, [currentPage]);
 
   useEffect(() => {
-    if (currentPage === "about" || currentPage === "contact") {
+    if (currentPage !== "home") {
       setTimeout(() => {
         groupRef.current.visible = false;
-      }, 2000);
+      }, 1200);
     }
-    if (currentPage === "home") {
-      groupRef.current.visible = true;
-    }
+
+    groupRef.current.visible = true;
   }, [currentPage]);
   useFrame(() => {
     if (currentPage === "about") {
@@ -76,108 +73,152 @@ export default function MainComponent(props) {
         config={{ mass: 2, tension: 500 }}
         snap={{ mass: 2, tension: 1500 }}
       >
-        <motion.group>
+        <motion.group position-y={0.5} scale={1.1}>
           <motion.group
             name="Avatar"
             ref={avatarRef}
             rotation-x={-Math.PI / 2}
             position={[2.7, -0.1, 1.6]}
+            initial={{ opacity: 0 }} // Устанавливаем начальное значение прозрачности в 0
             animate={{
               x:
                 currentPage === "about" || currentPage === "contact"
                   ? onMobile
                     ? 3.4
                     : 4
+                  : currentPage === "play"
+                  ? -2
                   : 2.7,
-              y: -0.1,
+              y: currentPage === "play" ? -0.6 : -0.1,
               z:
-                currentPage === "about" || currentPage === "contact" ? -2 : 1.6,
+                currentPage === "about" || currentPage === "contact"
+                  ? -2
+                  : currentPage === "play"
+                  ? 5
+                  : 1.6,
               scale:
                 currentPage === "about" || currentPage === "contact"
                   ? onMobile
                     ? 1
                     : 1.4
+                  : currentPage === "play"
+                  ? 2
                   : 1,
               rotateX: -1.5,
-
               rotateZ:
                 currentPage === "about" || currentPage === "contact"
                   ? -0.5
+                  : currentPage === "play"
+                  ? degToRad(45)
                   : [Math.PI / 1.75],
+              opacity: 1, // Устанавливаем прозрачность в 1 при переходе на другие страницы
             }}
+            transition={{}}
           >
             <Avatar animation={characterAnimation} />
           </motion.group>
+
           <group ref={groupRef}>
-            <group position-x={-1.5} position-y={1} position-z={2}>
-              <Text
-                font={"fonts/Poppins-Medium.ttf"}
-                fontSize={0.35}
-                lineHeight={1.2}
-                textAlign="center"
-                rotation-y={degToRad(75)}
+            <group name="TextGroup">
+              <group position-x={-1.5} position-y={1} position-z={2}>
+                <Text
+                  font={"fonts/Poppins-Medium.ttf"}
+                  fontSize={0.35}
+                  lineHeight={1.2}
+                  textAlign="center"
+                  rotation-y={degToRad(75)}
+                >
+                  Hi everyone!!!{"\n"}
+                  My name is Oleg, and I am {"\n"}a FullStack developer.{"\n"}
+                  This is my Portfolio page.{"\n"}
+                  <meshBasicMaterial color={"#007aa5"} />
+                </Text>
+              </group>
+              <motion.group
+                position-x={-2}
+                position-y={0}
+                position-z={3.5}
+                scale={0.25}
+                animate={{
+                  scale: [0.3, 0.25, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  smoothTime: 1,
+                  ease: "easeIn",
+                  repeat: Infinity,
+                }}
+                onClick={() => {
+                  aboutPage();
+                }}
               >
-                Hi everyone!!!{"\n"}
-                My name is Oleg, and I am {"\n"}a FullStack developer.{"\n"}
-                This is my Portfolio page.{"\n"}
-                <meshBasicMaterial color={"#007aa5"} />
-              </Text>
+                <Text
+                  font={"fonts/Poppins-Medium.ttf"}
+                  fontSize={1.5}
+                  rotation-y={degToRad(75)}
+                  color={bloomColor}
+                >
+                  AboutMe
+                </Text>
+              </motion.group>
+              <motion.group
+                name="ContactMe"
+                position-x={-1.3}
+                position-y={0}
+                position-z={1}
+                scale={0.25}
+                animate={{
+                  scale: [0.3, 0.25, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  smoothTime: 1,
+                  ease: "easeIn",
+                  repeat: Infinity,
+                }}
+                onClick={() => {
+                  contactPage();
+                }}
+              >
+                <Text
+                  font={"fonts/Poppins-Medium.ttf"}
+                  fontSize={1.5}
+                  rotation-y={degToRad(75)}
+                  color={bloomColor}
+                >
+                  ContactMe
+                </Text>
+              </motion.group>
+              <motion.group
+                name="Play"
+                position-x={1.5}
+                position-y={0.8}
+                position-z={0.4}
+                scale={0.3}
+                rotation={[0, -1, 0]}
+                animate={{
+                  scale: [0.3, 0.25, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  smoothTime: 1,
+                  ease: "easeIn",
+                  repeat: Infinity,
+                }}
+              >
+                <Text
+                  font={"fonts/Poppins-Medium.ttf"}
+                  fontSize={1.5}
+                  rotation-y={degToRad(75)}
+                  color={"white"}
+                  onClick={() => {
+                    playPage();
+                  }}
+                >
+                  PLAY!
+                </Text>
+              </motion.group>
             </group>
-            <motion.group
-              position-x={-2}
-              position-y={0}
-              position-z={3.5}
-              scale={0.25}
-              animate={{
-                scale: [0.3, 0.25, 0.3],
-              }}
-              transition={{
-                duration: 2,
-                smoothTime: 1,
-                ease: "easeIn",
-                repeat: Infinity,
-              }}
-              onClick={() => {
-                aboutPage();
-              }}
-            >
-              <Text
-                font={"fonts/Poppins-Medium.ttf"}
-                fontSize={1.5}
-                rotation-y={degToRad(75)}
-                color={bloomColor}
-              >
-                AboutMe
-              </Text>
-            </motion.group>
-            <motion.group
-              name="ContactMe"
-              position-x={-1.3}
-              position-y={0}
-              position-z={1}
-              scale={0.25}
-              animate={{
-                scale: [0.3, 0.25, 0.3],
-              }}
-              transition={{
-                duration: 2,
-                smoothTime: 1,
-                ease: "easeIn",
-                repeat: Infinity,
-              }}
-              onClick={() => {
-                contactPage();
-              }}
-            >
-              <Text
-                font={"fonts/Poppins-Medium.ttf"}
-                fontSize={1.5}
-                rotation-y={degToRad(75)}
-                color={bloomColor}
-              >
-                ContactMe
-              </Text>
-            </motion.group>
 
             <group
               scale={0.5}
@@ -186,10 +227,9 @@ export default function MainComponent(props) {
               position-y={0}
               position-z={0}
             >
-              <Room setNavigate={setNavigate} />
+              <Room />
             </group>
-
-            <mesh name="Floor" position-y={-0.48} rotation-x={-Math.PI / 2}>
+            <mesh name="Floor" position-y={-1} rotation-x={-Math.PI / 2}>
               <planeGeometry args={[100, 100]} />
               <MeshReflectorMaterial
                 blur={[50, 50]}
@@ -210,12 +250,11 @@ export default function MainComponent(props) {
         </motion.group>
       </PresentationControls>
       <motion.group position={onMobile ? [1.6, 7, -6] : [-3, 7.5, -7]}>
-        <Html>
+        <Html currentPage={currentPage}>
           <Interface
-            navigate={navigate}
-            setNavigate={setNavigate}
             onMobile={onMobile}
             dispatch={dispatch}
+            currentPage={currentPage}
           />
         </Html>
       </motion.group>

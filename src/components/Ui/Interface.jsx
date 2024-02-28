@@ -4,9 +4,9 @@ import { ValidationError, useForm } from "@formspree/react";
 import { setCurrentPage } from "../../features/redux/slices/cameraSlice";
 
 export default function Interface(props) {
-  const { navigate, setNavigate, onMobile, dispatch } = props;
-
+  const { onMobile, dispatch, currentPage } = props;
   const [state, handleSubmit] = useForm("xjvnyvlv");
+
   const Section = (props) => {
     const { children, mobileTop } = props;
 
@@ -82,7 +82,7 @@ export default function Interface(props) {
 
   return (
     <Section>
-      {navigate === 1 ? (
+      {currentPage === "about" ? (
         <motion.div
           whileInView={"visible"}
           className="w-full h-full flex flex-col items-center justify-center"
@@ -179,7 +179,6 @@ export default function Interface(props) {
                 className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 ml-20 "
                 onClick={() => {
                   dispatch(setCurrentPage("home"));
-                  setNavigate(0);
                 }}
               >
                 Home
@@ -187,7 +186,7 @@ export default function Interface(props) {
             </div>
           </div>
         </motion.div>
-      ) : navigate === 2 ? (
+      ) : currentPage === "contact" ? (
         <Section>
           <motion.div
             whileInView={"visible"}
@@ -209,7 +208,6 @@ export default function Interface(props) {
                     type="button"
                     onClick={(e) => {
                       dispatch(setCurrentPage("home"));
-                      setNavigate(0);
                     }}
                     className="bg-indigo-600 text-white py-4 px-20 rounded-lg font-bold text-lg ml-14  "
                   >
@@ -222,7 +220,6 @@ export default function Interface(props) {
                     type="button"
                     onClick={(e) => {
                       dispatch(setCurrentPage("home"));
-                      setNavigate(0);
                     }}
                     className="bg-indigo-600 text-white py-0 px-1 rounded-lg font-bold text-xl ml-80    "
                   >

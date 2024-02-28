@@ -5,10 +5,13 @@ import { Suspense, useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
 import Loading from "./components/Ui/Loading";
 import CameraPositionControls from "./components/Ui/CameraPositionControls";
+import { motion } from "framer-motion-3d";
+import MinesweeperBoard from "./components/games/MinesweeperBoard";
 
 function App() {
   const [navigate, setNavigate] = useState(0);
   const [load, setLoad] = useState(false);
+  const [inGame, setInGame] = useState(false);
   const [backGroundColor, setBackGroundColor] = useState("#171720");
 
   const currentPage = useSelector((state) => state.camera.value);
@@ -17,7 +20,7 @@ function App() {
     if (currentPage === "about" || currentPage === "contact") {
       setTimeout(() => {
         setBackGroundColor("#007FFF");
-      }, 2000);
+      }, 1200);
     }
     setBackGroundColor("#171720");
   }, [currentPage]);
@@ -25,7 +28,7 @@ function App() {
     <>
       <Loading load={load} setLoad={setLoad} />
       <MotionConfig>
-        <Canvas>
+        <Canvas shadows>
           <CameraPositionControls
             navigate={navigate}
             setNavigate={setNavigate}
@@ -33,15 +36,34 @@ function App() {
 
           <color attach="background" args={[backGroundColor]} />
           <fog attach="fog" args={["#171720", 10, 30]} />
-          <ambientLight intensity={1} />
 
-          {/* <ScrollControls damping={0.1}> */}
-          {/* <NavigateController navigate={navigate} setNavigate={setNavigate} /> */}
           <Suspense>
-            <MainComponent navigate={navigate} setNavigate={setNavigate} />
-          </Suspense>
+            {currentPage === "play" && (
+              <motion.group
+                initial={{ scale: 0 }}
+                animate={{
+                  scale: 2,
+                }}
+                transition={{
+                  delay: 1,
+                  duration: 1,
+                }}
+                position={[0.8, 0.7, 8]}
+              >
+                <MinesweeperBoard />
+              </motion.group>
+            )}
 
-          {/* </ScrollControls> */}
+            <MainComponent />
+          </Suspense>
+          {/* <EffectComposer>
+            <Bloom
+              mipmapBlur={0}
+              luminanceThreshold={0.5}
+              luminanceSmoothing={2}
+            />
+          </EffectComposer> */}
+          {/* <MinesweeperBoard /> */}
         </Canvas>
       </MotionConfig>
     </>

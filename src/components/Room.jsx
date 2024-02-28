@@ -4,30 +4,23 @@ Command: npx gltfjsx@6.2.16 public/models/room.glb
 */
 
 import React, { useEffect, useRef } from "react";
-import {
-  useGLTF,
-  useAnimations,
-  useTexture,
-  useVideoTexture,
-} from "@react-three/drei";
+import { useGLTF, useTexture, useVideoTexture } from "@react-three/drei";
 import * as THREE from "three";
 
 import { motion } from "framer-motion-3d";
-import { ToneMapping } from "@react-three/postprocessing";
-import { Color } from "three";
-import { useDispatch, useSelector } from "react-redux";
-import { setMonitorRef } from "../features/redux/slices/MonitoreRefSlice";
-import { degToRad } from "three/src/math/MathUtils";
+
+import { useFrame } from "@react-three/fiber";
+import { useDispatch } from "react-redux";
+import { setBombRef } from "../features/redux/slices/bombRefSlice";
+import { Bomb } from "./Bomb";
 
 export function Room(props) {
-  const dispath = useDispatch();
-  const currentPage = useSelector((state) => state.camera.value);
   const monitorRef = useRef();
-
+  const bombRef = useRef();
   const group = useRef();
+  const dispatch = useDispatch();
   const { nodes, materials } = useGLTF("models/room.glb");
 
-  console.log(currentPage, "ROOM");
   const texture = useTexture("textures/Baked.jpg");
   const tvTexture = useVideoTexture("textures/video.mp4");
 
@@ -41,8 +34,11 @@ export function Room(props) {
   texture.colorSpace = THREE.SRGBColorSpace;
   const textureMaterial = new THREE.MeshStandardMaterial({ map: texture });
   useEffect(() => {
-    dispath(setMonitorRef(monitorRef.current?.uuid));
-  }, [currentPage]);
+    dispatch(setBombRef(bombRef.current.uuid));
+  }, []);
+  useFrame((_, delta) => {
+    bombRef.current.rotation.z += delta * 1;
+  });
 
   return (
     <group {...props} ref={group} dispose={null}>
@@ -70,52 +66,13 @@ export function Room(props) {
         <meshBasicMaterial map={monitor2Texture} toneMapped={false} />
       </mesh>
       <motion.group
-        name="Bonsai"
-        position={[-1.226, 1.043, 0.917]}
-        whileHover={{
-          scale: 1.1,
-        }}
+        name="Bomb"
+        position={[-1.226, 2, 0.917]}
+        rotation={[1.5, 0, -1.5]}
+        scale={4}
+        ref={bombRef}
       >
-        <mesh
-          name="mesh430673059"
-          geometry={nodes.mesh430673059.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_1"
-          geometry={nodes.mesh430673059_1.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_2"
-          geometry={nodes.mesh430673059_2.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_3"
-          geometry={nodes.mesh430673059_3.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_4"
-          geometry={nodes.mesh430673059_4.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_5"
-          geometry={nodes.mesh430673059_5.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_6"
-          geometry={nodes.mesh430673059_6.geometry}
-          material={textureMaterial}
-        />
-        <mesh
-          name="mesh430673059_7"
-          geometry={nodes.mesh430673059_7.geometry}
-          material={textureMaterial}
-        />
+        <Bomb />
       </motion.group>
       <group
         name="Chair"
