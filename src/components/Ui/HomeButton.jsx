@@ -1,4 +1,4 @@
-import { Text3D } from "@react-three/drei";
+import { Text3D, useFont } from "@react-three/drei";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { degToRad } from "three/src/math/MathUtils";
