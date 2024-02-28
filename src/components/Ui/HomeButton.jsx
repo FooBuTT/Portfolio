@@ -33,3 +33,4 @@ export default function HomeButton() {
     </group>
   );
 }
+useFont.preload("fonts/Poppins Medium_Regular.json");
