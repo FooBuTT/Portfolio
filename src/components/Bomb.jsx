@@ -8,7 +8,7 @@ import { useGLTF } from "@react-three/drei";
 import { degToRad } from "three/src/math/MathUtils";
 
 export function Bomb(props) {
-  const { nodes, materials } = useGLTF("/models/Bomb.glb");
+  const { nodes, materials } = useGLTF("models/Bomb.glb");
 
   return (
     <group {...props} dispose={null}>
@@ -26,4 +26,4 @@ export function Bomb(props) {
   );
 }
 
-useGLTF.preload("/models/Bomb.glb");
+useGLTF.preload("models/Bomb.glb");
