@@ -32,7 +32,7 @@ export default function CameraPositionControls(props) {
     }
     if (currentPage === "play") {
       controls.current.fitToBox(meshFitPlay.current, true);
-      controls.current.smoothTime = 2;
+      controls.current.smoothTime = 1;
     } else {
       controls.current.fitToBox(meshFitCamera.current, true);
       controls.current.smoothTime = 0.6;
@@ -79,7 +79,7 @@ export default function CameraPositionControls(props) {
           <meshBasicMaterial color={"green"} transparent opacity={0.5} />
         </mesh>
       </group>
-      <CameraControls ref={controls} />
+      <CameraControls ref={controls} rotate={false} />
     </>
   );
 }

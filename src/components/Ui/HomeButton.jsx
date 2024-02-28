@@ -1,4 +1,4 @@
-import { Text3D, useFont } from "@react-three/drei";
+import { Text, Text3D, useFont } from "@react-three/drei";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { degToRad } from "three/src/math/MathUtils";
@@ -13,15 +13,14 @@ export default function HomeButton() {
   };
   return (
     <group>
-      <Text3D
+      <Text
         rotation-x={degToRad(-180)}
-        position={[-1.2, 0.3, -0.5]}
-        scale={0.6}
-        font={"/fonts/Poppins Medium_Regular.json"}
+        position={[0, 0, -0.6]}
+        color="#007aa5"
+        fontSize={1}
       >
         Home
-        <meshStandardMaterial color={"white"} />
-      </Text3D>
+      </Text>
       <mesh
         onClick={() => {
           setHome();
@@ -33,4 +32,3 @@ export default function HomeButton() {
     </group>
   );
 }
-useFont.preload("fonts/Poppins Medium_Regular.json");
