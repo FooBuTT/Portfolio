@@ -16,7 +16,6 @@ import { Color } from "three";
 import Interface from "./Ui/Interface";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../features/redux/slices/cameraSlice";
-import { Bomb } from "./Bomb";
 
 export default function MainComponent() {
   const [characterAnimation, setCharacterAnimation] = useState("Typing");

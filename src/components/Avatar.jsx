@@ -116,7 +116,7 @@ export default function Avatar(props) {
 }
 
 useGLTF.preload("models/avatar.glb");
-useFBX.preload("animations/Typing.fbx");
-useFBX.preload("animations/Standing.fbx");
-useFBX.preload("animations/Falling.fbx");
-useFBX.preload("animations/Running.fbx");
+useFBX.preload("animation/Typing.fbx");
+useFBX.preload("animation/Standing.fbx");
+useFBX.preload("animation/Falling.fbx");
+useFBX.preload("animation/Running.fbx");
