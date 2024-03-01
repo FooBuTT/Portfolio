@@ -83,10 +83,10 @@ export default function MainComponent() {
               x:
                 currentPage === "about" || currentPage === "contact"
                   ? onMobile
-                    ? 3.4
+                    ? 3.0
                     : 4
                   : currentPage === "play"
-                  ? -2
+                  ? -0.5
                   : 2.7,
               y: currentPage === "play" ? -0.6 : -0.1,
               z:
@@ -98,7 +98,7 @@ export default function MainComponent() {
               scale:
                 currentPage === "about" || currentPage === "contact"
                   ? onMobile
-                    ? 1
+                    ? 1.5
                     : 1.4
                   : currentPage === "play"
                   ? 2
@@ -248,7 +248,7 @@ export default function MainComponent() {
           </group>
         </motion.group>
       </PresentationControls>
-      <motion.group position={onMobile ? [1.6, 7, -6] : [-3, 7.5, -7]}>
+      <motion.group position={onMobile ? [1.2, 7, -6] : [-3, 7.5, -7]}>
         <Html currentPage={currentPage}>
           <Interface
             onMobile={onMobile}

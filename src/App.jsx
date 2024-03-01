@@ -13,7 +13,6 @@ function App() {
   const [load, setLoad] = useState(false);
   const [inGame, setInGame] = useState(false);
   const [backGroundColor, setBackGroundColor] = useState("#171720");
-
   const currentPage = useSelector((state) => state.camera.value);
 
   useEffect(() => {
