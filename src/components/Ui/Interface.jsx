@@ -85,7 +85,7 @@ export default function Interface(props) {
       {currentPage === "about" ? (
         <motion.div
           whileInView={"visible"}
-          className="w-full h-full flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center"
         >
           <h2 className="text-5xl font-bold text-white">Skills</h2>
           <div className=" mt-8 space-y-4">
@@ -192,8 +192,8 @@ export default function Interface(props) {
             whileInView={"visible"}
             animate={{
               duration: 0.1,
-              scaleX: onMobile ? 1 : 2.5,
-              scaleY: onMobile ? 1 : 1.9,
+              scaleX: onMobile ? 1.5 : 2.5,
+              scaleY: onMobile ? 1.5 : 1.9,
               x: onMobile ? -125 : 175,
             }}
           >

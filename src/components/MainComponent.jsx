@@ -26,6 +26,8 @@ export default function MainComponent() {
   const onMobile = window.innerWidth < 768;
   const onTab = window.innerHeight < 768;
 
+  console.log(window.innerHeight, window.innerWidth);
+
   const dispatch = useDispatch();
   const bloomColor = new Color("#fff");
   bloomColor.multiplyScalar(1.1);
