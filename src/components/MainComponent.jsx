@@ -24,6 +24,7 @@ export default function MainComponent() {
 
   const currentPage = useSelector((state) => state.camera.value);
   const onMobile = window.innerWidth < 768;
+  const onTab = window.innerHeight < 768;
 
   const dispatch = useDispatch();
   const bloomColor = new Color("#fff");
@@ -251,6 +252,7 @@ export default function MainComponent() {
       <motion.group position={onMobile ? [1.2, 7, -6] : [-3, 7.5, -7]}>
         <Html currentPage={currentPage}>
           <Interface
+            onTab={onTab}
             onMobile={onMobile}
             dispatch={dispatch}
             currentPage={currentPage}

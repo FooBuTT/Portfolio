@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { degToRad } from "three/src/math/MathUtils";
 import { Text } from "@react-three/drei";
+import { motion } from "framer-motion-3d";
 import { Bomb } from "../Bomb";
 import Cell from "./Cell";
 import RestartButton from "./RestarButton";
@@ -256,9 +257,15 @@ export default function MinesweeperBoard() {
               <boxGeometry args={[9, 0.1, 9]} />
               <meshStandardMaterial color="white" />
             </mesh>
-            <group position={[4, 0, 9.5]}>
+            <motion.group
+              position={[4, 0, 9.5]}
+              rotation-x={0.2}
+              scale={0.5}
+              whileHover={{ scale: 0.8 }}
+              whileTap={{ scale: 0.9 }}
+            >
               <HomeButton />
-            </group>
+            </motion.group>
           </group>
         );
       })}

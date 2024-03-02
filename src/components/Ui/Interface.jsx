@@ -4,7 +4,7 @@ import { ValidationError, useForm } from "@formspree/react";
 import { setCurrentPage } from "../../features/redux/slices/cameraSlice";
 
 export default function Interface(props) {
-  const { onMobile, dispatch, currentPage } = props;
+  const { onTab, onMobile, dispatch, currentPage } = props;
   const [state, handleSubmit] = useForm("xjvnyvlv");
 
   const Section = (props) => {
@@ -22,10 +22,11 @@ export default function Interface(props) {
           y: 50,
           x: onMobile ? 15 : 100,
 
-          scale: 0.8,
+          scale: onTab ? 0.45 : 0.8,
         }}
         whileInView={{
           opacity: 1,
+          x: onTab ? -100 : onMobile ? 45 : 0,
           y: 0,
 
           transition: {
@@ -197,7 +198,9 @@ export default function Interface(props) {
               x: onMobile ? -125 : 175,
             }}
           >
-            <h2 className="text-5xl md:text-5xl font-bold ml-16">Contact me</h2>
+            <h2 className=" text-gray-100 text-5xl md:text-5xl font-bold ml-16">
+              Contact me
+            </h2>
             <div className="mt-8 p-8 rounded-md bg-white bg-opacity-50 w-96 max-w-full">
               {state.succeeded ? (
                 <>
