@@ -79,7 +79,7 @@ export default function CameraPositionControls(props) {
           <meshBasicMaterial color={"green"} transparent opacity={0.5} />
         </mesh>
       </group>
-      <CameraControls ref={controls} rotate={false} />
+      <CameraControls ref={controls} rotate={true} />
     </>
   );
 }

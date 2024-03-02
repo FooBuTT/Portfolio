@@ -249,7 +249,9 @@ export default function MainComponent() {
           </group>
         </motion.group>
       </PresentationControls>
-      <motion.group position={onMobile ? [1.2, 7, -6] : [-3, 7.5, -7]}>
+      <motion.group
+        position={onMobile ? [1.5, 7, -6] : onTab ? [-8, 7, -6] : [-3, 7.5, -7]}
+      >
         <Html currentPage={currentPage}>
           <Interface
             onTab={onTab}
